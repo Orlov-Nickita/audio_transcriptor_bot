@@ -1,0 +1,11 @@
+version: "3.8"
+
+services:
+  python3:
+    container_name: audio_bot_transcriptor
+    restart: always
+    env_file:
+      - /home/orlow/audio_bot_transcriptor/.env
+    build:
+      context: .
+      dockerfile: Dockerfile
