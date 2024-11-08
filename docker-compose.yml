@@ -9,3 +9,17 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+  redis:
+    image: redis:latest
+    container_name: redis
+    restart: on-failure
+    ports:
+      - 6379:6379
+    command: redis-server --save 20 1 --loglevel warning
+    volumes: 
+      - data:/data
+    env_file:
+      - /home/orlow/redis/.env
+volumes:
+  data:
+    driver: local
