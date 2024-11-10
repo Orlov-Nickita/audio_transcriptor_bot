@@ -4,16 +4,16 @@ from openai import OpenAI
 from loader import OPEN_AI_API_KEY
 
 
-async def audio_to_text(file_path: io.BytesIO) -> str:
+async def audio_to_text(io_file_bytes: io.BytesIO) -> str:
     """Принимает путь к аудио файлу, возвращает текст файла."""
+    # return 'transcript.text'
     client = OpenAI(
         api_key=f"{OPEN_AI_API_KEY}",
         base_url="https://api.proxyapi.ru/openai/v1",
     )
-    # return 'transcript.text'
     transcript = client.audio.transcriptions.create(
         model="whisper-1",
-        file=file_path
+        file=io_file_bytes
     )
     return transcript.text
 
