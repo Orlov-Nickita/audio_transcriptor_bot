@@ -7,9 +7,6 @@ load_dotenv()
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 OPEN_AI_API_KEY = os.getenv('OPEN_AI_API_KEY')
 
-OPEN_AI_LOGIN = os.getenv('OPEN_AI_LOGIN')
-OPEN_AI_PASS = os.getenv('OPEN_AI_PASS')
-
 REDIS_USER = os.getenv('REDIS_USER')
 REDIS_PASS = os.getenv('REDIS_PASS')
 REDIS_PORT = os.getenv('REDIS_PORT')

@@ -1,42 +1,23 @@
-import asyncio
-import datetime
 from typing import Dict
 import aiohttp
 from pydantic import BaseModel
 
-from loader import OPEN_AI_LOGIN, OPEN_AI_PASS
+from loader import OPEN_AI_API_KEY
 
 
-class OpenAIUserModel(BaseModel):
-    id: int
-    first_name: str
-    last_name: str
-    is_active: bool
+class OpenAIModel(BaseModel):
     balance: float
-    api_keys_limit: int
-    created_at: datetime.datetime
-
-
-class OpenAILoginModel(BaseModel):
-    token: str
-    refresh_token: str
-    user: OpenAIUserModel
 
 
 class BalanceWorker:
-    def __init__(self):
-        self.login = OPEN_AI_LOGIN
-        self.password = OPEN_AI_PASS
-
     async def _get_auth_data(self):
         return {
-            'email': self.login,
-            'password': self.password,
+            "Authorization": f'Bearer {OPEN_AI_API_KEY}',
         }
 
-    async def get_login(self) -> OpenAILoginModel:
+    async def get_login(self) -> OpenAIModel:
         async with aiohttp.ClientSession() as session:
             headers = await self._get_auth_data()
-            response = await session.post('https://local.proxyapi.ru/auth/login', json=headers)
+            response = await session.get('https://api.aitunnel.ru/v1/aitunnel/balance', headers=headers)
             content: Dict = await response.json()
-            return OpenAILoginModel(**content)
+            return OpenAIModel(**content)

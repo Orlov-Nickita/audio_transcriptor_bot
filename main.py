@@ -1,10 +1,10 @@
 import asyncio
 import os.path
 from aiogram import Bot, Dispatcher, BaseMiddleware
-from aiogram.client.session.middlewares.request_logging import RequestLogging
-from aiogram.fsm.storage.memory import MemoryStorage
-from aiogram.fsm.storage.redis import RedisStorage
-from aiogram.methods import GetUpdates
+# from aiogram.client.session.middlewares.request_logging import RequestLogging
+# from aiogram.fsm.storage.memory import MemoryStorage
+# from aiogram.fsm.storage.redis import RedisStorage
+# from aiogram.methods import GetUpdates
 from aiogram.types import BotCommand, Message
 from bot import router, Auth
 from loader import BOT_TOKEN, redis_url, ADMINISTRATORS
@@ -42,7 +42,7 @@ class AuthMiddleware(BaseMiddleware):
 
 async def main():
     bot: Bot = Bot(token=BOT_TOKEN)
-    bot.session.middleware(RequestLogging(ignore_methods=[GetUpdates]))
+    # bot.session.middleware(RequestLogging())
 
     commands = [
         BotCommand(command="/start", description="Начать"),
@@ -50,10 +50,9 @@ async def main():
         BotCommand(command="/balance", description="Узнать баланс"),
     ]
     await bot.set_my_commands(commands)
-    storage = RedisStorage.from_url(redis_url)
+    # storage = RedisStorage.from_url(redis_url)
     router.message.middleware(AuthMiddleware())
-
-    dp: Dispatcher = Dispatcher(storage=storage)
+    dp: Dispatcher = Dispatcher()
     dp.include_router(router)
     await dp.start_polling(bot)
 

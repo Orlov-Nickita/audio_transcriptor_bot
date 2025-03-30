@@ -1,5 +1,4 @@
 import io
-import os
 
 from aiogram import Bot, F, Router
 from aiogram.filters import Command, CommandStart
@@ -8,7 +7,7 @@ from aiogram.fsm.state import StatesGroup, State
 from aiogram.types import File
 from loguru import logger
 
-from balance import BalanceWorker, OpenAILoginModel
+from balance import BalanceWorker, OpenAIModel
 from utils import audio_to_text, chunked
 from aiogram.types import Message
 
@@ -35,8 +34,8 @@ async def transcript_audio(message: Message, state: FSMContext) -> None:
 @router.message(Auth.authenticated, Command(commands=['balance']))
 async def get_balance_for_transcript(message: Message) -> None:
     balance_worker = BalanceWorker()
-    balance: OpenAILoginModel = await balance_worker.get_login()
-    await message.reply(text=f'Ваш баланс: {balance.user.balance} рублей')
+    balance: OpenAIModel = await balance_worker.get_login()
+    await message.reply(text=f'Ваш баланс: {balance.balance} рублей')
 
 
 @router.message(Auth.not_authenticated)
@@ -44,9 +43,9 @@ async def process_message(message: Message):
     await message.reply(text='Доступ закрыт')
 
 
-@router.message(F.content_type == "text")
-async def process_message_2(message: Message):
-    await message.reply(text='Привет, выбери команду!')
+# @router.message(F.content_type == "text")
+# async def process_message_2(message: Message):
+#     await message.reply(text='Привет, выбери команду!')
 
 
 async def is_valid_file_format(message: Message, filename: str):
