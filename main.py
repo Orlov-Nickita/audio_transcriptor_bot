@@ -48,9 +48,10 @@ async def main():
         BotCommand(command="/balance", description="Узнать баланс"),
     ]
     await bot.set_my_commands(commands)
-    storage = RedisStorage.from_url(redis_url)
+    # storage = RedisStorage.from_url(redis_url)
     router.message.middleware(AuthMiddleware())
-    dp: Dispatcher = Dispatcher(storage=storage)
+    # dp: Dispatcher = Dispatcher(storage=storage)
+    dp: Dispatcher = Dispatcher()
     dp.include_router(router)
     await dp.start_polling(bot)
 
