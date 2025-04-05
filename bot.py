@@ -25,22 +25,22 @@ async def send_welcome_func(message: Message) -> None:
     await message.reply(text='Добро пожаловать в транскрибатор аудио')
 
 
-@router.message(Auth.authenticated, Command(commands=['audio']))
+@router.message(Command(commands=['audio']))
 async def transcript_audio(message: Message, state: FSMContext) -> None:
-    await message.reply(text='Пришли аудио')
+    await message.reply(text='Пришли аудио или введи "Отмена"')
     await state.set_state(Auth.audio)
 
 
-@router.message(Auth.authenticated, Command(commands=['balance']))
+@router.message(Command(commands=['balance']))
 async def get_balance_for_transcript(message: Message) -> None:
     balance_worker = BalanceWorker()
     balance: OpenAIModel = await balance_worker.get_login()
     await message.reply(text=f'Ваш баланс: {balance.balance} рублей')
 
 
-@router.message(Auth.not_authenticated)
-async def process_message(message: Message):
-    await message.reply(text='Доступ закрыт')
+# @router.message(Auth.not_authenticated)
+# async def process_message(message: Message):
+#     await message.reply(text='Доступ закрыт')
 
 
 # @router.message(F.content_type == "text")
@@ -76,6 +76,13 @@ async def process_voice_message(message: Message, bot: Bot, state: FSMContext):
     logger.debug(message.voice)
     file_from_bot = await bot.get_file(message.voice.file_id)
     await process_file(message, bot, state, file_from_bot)
+
+
+@router.message(Auth.audio, F.content_type == "text")
+async def cancel_upload(message: Message, state: FSMContext, bot: Bot) -> None:
+    if message.text == "Отмена" or message.text == "отмена":
+        await bot.send_message(text="Загрузка отменена", chat_id=message.chat.id)
+        await state.clear()
 
 
 async def process_file(message: Message, bot: Bot, state: FSMContext, file_from_bot: File):
