@@ -58,9 +58,9 @@ async def main():
         BotCommand(command="/balance", description="Узнать баланс"),
     ]
     await bot.set_my_commands(commands)
-    storage = RedisStorage.from_url(redis_url)
+    # storage = RedisStorage.from_url(redis_url)
     router.message.filter(AuthFilter())
-    dp: Dispatcher = Dispatcher(storage=storage)
+    dp: Dispatcher = Dispatcher()
     dp.include_router(router)
     await dp.start_polling(bot)
 
@@ -70,9 +70,9 @@ if __name__ == "__main__":
         os.makedirs('logs')
     print('started')
     logger.add("logs/logging_{time}.log", rotation="50 MB", level="DEBUG")
-    logging.getLogger('aiogram').setLevel(logging.DEBUG)
-    logging.getLogger('aiogram').addHandler(InterceptHandler())
-    logging.getLogger('asyncio').setLevel(logging.DEBUG)
-    logging.getLogger('asyncio').addHandler(InterceptHandler())
+    # logging.getLogger('aiogram').setLevel(logging.DEBUG)
+    # logging.getLogger('aiogram').addHandler(InterceptHandler())
+    # logging.getLogger('asyncio').setLevel(logging.DEBUG)
+    # logging.getLogger('asyncio').addHandler(InterceptHandler())
 
     asyncio.run(main())
