@@ -49,7 +49,7 @@ class AuthFilter(BaseFilter):
 
 
 async def main():
-    bot: Bot = Bot(token=BOT_TOKEN)
+    bot: Bot = Bot(token=BOT_TOKEN, proxy='http://Ib2u8q:i0KBWL@185.141.35.89:24133')
     bot.session.middleware(RequestLogging())
 
     commands = [
