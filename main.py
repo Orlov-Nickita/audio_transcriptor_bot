@@ -2,6 +2,7 @@ import asyncio
 import os
 import os.path
 from aiogram import Bot, Dispatcher
+from aiogram.client.session.aiohttp import AiohttpSession
 from aiogram.client.session.middlewares.request_logging import RequestLogging
 from aiogram.enums import ParseMode
 from aiogram.filters import BaseFilter
@@ -49,7 +50,8 @@ class AuthFilter(BaseFilter):
 
 
 async def main():
-    bot: Bot = Bot(token=BOT_TOKEN, proxy=PROXY)
+    session = AiohttpSession(proxy=PROXY)
+    bot: Bot = Bot(token=BOT_TOKEN, session=session)
     bot.session.middleware(RequestLogging())
 
     commands = [
