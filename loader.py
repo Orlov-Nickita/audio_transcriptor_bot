@@ -22,3 +22,4 @@ ADMINISTRATORS = {
 }
 
 redis_url = f'redis://{REDIS_USER}:{REDIS_PASS}@{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB}'
+
