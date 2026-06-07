@@ -8,7 +8,7 @@ from aiogram.filters import BaseFilter
 from aiogram.fsm.storage.redis import RedisStorage
 from aiogram.types import BotCommand, Message
 from bot import router
-from loader import BOT_TOKEN, redis_url, ADMINISTRATORS
+from loader import BOT_TOKEN, redis_url, ADMINISTRATORS, PROXY
 from typing import Any
 import logging
 from loguru import logger
@@ -49,7 +49,7 @@ class AuthFilter(BaseFilter):
 
 
 async def main():
-    bot: Bot = Bot(token=BOT_TOKEN, proxy='http://Ib2u8q:i0KBWL@185.141.35.89:24133')
+    bot: Bot = Bot(token=BOT_TOKEN, proxy=PROXY)
     bot.session.middleware(RequestLogging())
 
     commands = [

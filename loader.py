@@ -13,6 +13,8 @@ REDIS_PORT = os.getenv('REDIS_PORT')
 REDIS_HOST = os.getenv('REDIS_HOST')
 REDIS_DB = os.getenv('REDIS_DB')
 
+PROXY = os.getenv('PROXY')
+
 ADMINISTRATORS = {
     "Никита": os.environ["ADMINISTRATOR_NIKITA"],
     "Саша": os.environ["ADMINISTRATOR_SASHA"],
